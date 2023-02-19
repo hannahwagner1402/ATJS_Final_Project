@@ -1,11 +1,12 @@
 <script setup>
 import {ref, computed, onMounted } from 'vue'
 
-//default scores for wins/ losses/ draws is 0
+// defining the scores
 const winScore = ref(0)
 const loseScore = ref(0)
 const drawScore = ref(0)
 
+// defining results
 const choice = ref(null)
 const compChoice = ref(null)
 const result = ref(null)
@@ -31,7 +32,7 @@ const outcomes = {
   }
 }
 
-// calculating the overall winpercentage based on the scores
+// calculating the overall winpercentage based on the win/ draw and lose score
 const winPercentage = computed(() => {
   const total = winScore.value + drawScore.value + loseScore.value
 
@@ -39,11 +40,11 @@ const winPercentage = computed(() => {
   return total ? (winScore.value/ total) * 100 : 0
 })
 
-//
+// player choice
 const play = c => {
   choice.value = c
 
-  // defining choices/ randomized computer choice
+  // randomized computer choice
   const choices = ['fire','water','earth']
   const random = Math.floor(Math.random()*3)
   compChoice.value = choices[random]
@@ -71,13 +72,14 @@ const SaveScores = () => {
   localStorage.setItem('loseScore', loseScore.value)
 }
 
+//Loading the game
 const LoadGame = () => {
   winScore.value = parseInt(localStorage.getItem('winScore')) || 0
   drawScore.value = parseInt(localStorage.getItem('drawScore')) || 0
   loseScore.value = parseInt(localStorage.getItem('loseScore')) || 0
 }
 
-//Reseting Game
+//Reseting the game round
 const ResetRound = () => {
   choice.value = null
   compChoice.value = null
@@ -90,8 +92,15 @@ onMounted(() => {
 })
 
 </script>
-//using tailwind to add css
+
+<!-- Adding styles with tailwind (defined my main colors in tailwind.config.js & imported a font from google
+fonts into the main.css-->
+
+
+
 <template>
+
+  <!-- Main page -->
 <div class="bg-bggreen text-white text-center min-h-screen flex flex-col ">
   <header class = "container mx-auto p-6 bg-green-900 drop-shadow-lg">
     <h1 class="text-5xl font-semibold mb-4 mt-3">ELEMENTAL ROCK PAPER SCISSORS</h1>
@@ -126,6 +135,7 @@ onMounted(() => {
 
     </div>
 
+    <!-- Results page -->
     <div v-else>
       <div class = "bg-lightgreen mx-auto ">
       <div class="text-3xl mb-4 mt-10 font-light">
@@ -143,7 +153,7 @@ onMounted(() => {
     </div>
     </div>
 
-    <div class="text-3xl mb-4">
+    <div class="text-3xl mb-4 mt-2">
       <text class = "text-bggreen drop-shadow-lg">wins:</text> {{winScore}}, <text class="text-darkblue drop-shadow-lg">draws:</text> {{drawScore}},
       <text class = "text-orange drop-shadow-lg" >losses:</text> {{loseScore}}
     </div>
@@ -156,9 +166,10 @@ onMounted(() => {
 
   </main>
 
+  <!-- Explaining the rules of the game -->
   <div class = "bg-bggreen rounded-b-lg drop-shadow-xl">
 
-    <h1 class="text-3xl font-bold mt-3 drop-shadow-md">RULES:</h1>
+    <h1 class="text-3xl font-bold mt-4 drop-shadow-md">RULES:</h1>
 
     <div class="text-lg mt-2 mb-3">
 
